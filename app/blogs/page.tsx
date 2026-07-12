@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Form from 'next/form';
 import { getBlogs } from '../services/blogs';
+import BlogFilterForm from './BlogFilterForm';
 
 const Blogs = async ({
   searchParams,
@@ -13,10 +13,7 @@ const Blogs = async ({
   return (
     <div>
       <h2>Blogs</h2>
-      <Form action="">
-        <input type="text" name="filter" defaultValue={filter} />
-        <button type="submit">filter</button>
-      </Form>
+      <BlogFilterForm defaultValue={filter} />
       <ul>
         {blogs.map((blog) => (
           <li key={blog.id}>
