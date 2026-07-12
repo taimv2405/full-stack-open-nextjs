@@ -2,22 +2,16 @@ import { eq, ilike, sql } from 'drizzle-orm';
 import { db } from '../../db';
 import { blogs } from '../../db/schema';
 
-export const getBlogs = async () => {
-  return db.query.blogs.findMany();
+export const getBlogs = async (filter?: string) => {
+  const cleanFilter = filter?.trim();
+  return db.query.blogs.findMany({
+    where: cleanFilter ? ilike(blogs.title, `%${cleanFilter}%`) : undefined,
+  });
 };
 
 export const getBlogById = async (id: number) => {
   return db.query.blogs.findFirst({
     where: eq(blogs.id, id),
-  });
-};
-
-export const getBlogsByTitle = async (searchTerm: string) => {
-  const cleanTerm = searchTerm.trim();
-  if (!cleanTerm) return [];
-
-  return db.query.blogs.findMany({
-    where: ilike(blogs.title, `%${cleanTerm}%`),
   });
 };
 

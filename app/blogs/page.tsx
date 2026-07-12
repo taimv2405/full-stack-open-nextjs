@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Form from 'next/form';
-import { getBlogs, getBlogsByTitle } from '../services/blogs';
+import { getBlogs } from '../services/blogs';
 
 const Blogs = async ({
   searchParams,
@@ -8,10 +8,7 @@ const Blogs = async ({
   searchParams: Promise<{ filter?: string }>;
 }) => {
   const { filter } = await searchParams;
-  const trimmedFilter = filter?.trim();
-  const blogs = (
-    trimmedFilter ? await getBlogsByTitle(trimmedFilter) : await getBlogs()
-  ).toSorted((a, b) => b.likes - a.likes);
+  const blogs = (await getBlogs(filter)).toSorted((a, b) => b.likes - a.likes);
 
   return (
     <div>
