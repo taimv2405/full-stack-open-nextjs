@@ -1,10 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 
 const NavBar = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.refresh();
+  };
 
   return (
     <nav>
@@ -19,7 +26,7 @@ const NavBar = () => {
           <Link href="/blogs/new">create new</Link>
           {' | '}
           <em>{session.user?.name} logged in</em>{' '}
-          <button onClick={() => signOut()}>logout</button>
+          <button onClick={handleLogout}>logout</button>
         </>
       ) : (
         <>
