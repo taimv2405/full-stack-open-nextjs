@@ -22,6 +22,13 @@
       "when": 1783855213172,
       "tag": "0002_known_jackpot",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1783916466229,
+      "tag": "0003_amusing_donald_blake",
+      "breakpoints": true
     }
   ]
 }
