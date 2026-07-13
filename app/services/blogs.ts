@@ -1,6 +1,6 @@
 import { eq, ilike, sql } from 'drizzle-orm';
-import { db } from '../../db';
-import { blogs } from '../../db/schema';
+import { db } from '@/db';
+import { blogs } from '@/db/schema';
 
 export const getBlogs = async (filter?: string) => {
   const cleanFilter = filter?.trim();
