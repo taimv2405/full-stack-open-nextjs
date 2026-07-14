@@ -1,12 +1,16 @@
 import { redirect } from 'next/navigation';
+import { getReadingList } from '@/app/services/readingList';
 import { getCurrentUser } from '@/app/services/session';
 import { generateToken } from '@/app/actions/users';
+import BlogEntry from '@/app/components/BlogEntry';
 
 const Me = async () => {
   const user = await getCurrentUser();
   if (!user) {
     redirect('/login');
   }
+
+  const readingList = await getReadingList(user.id);
 
   return (
     <div className="max-w-2xl mx-auto mt-6 p-6 border rounded">
@@ -17,6 +21,19 @@ const Me = async () => {
       <p className="mb-2">
         <strong>Username:</strong> {user.username}
       </p>
+      <hr className="my-4" />
+      <h2 className="text-xl font-bold mb-4">Reading List</h2>
+      {readingList.length > 0 ? (
+        <ul className="list-disc pl-5">
+          {readingList.map((entry) => (
+            <li key={entry.id}>
+              <BlogEntry blog={entry.blog} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500">Your reading list is empty.</p>
+      )}
       <hr className="my-4" />
       <h2 className="text-xl font-bold mb-4">API Token</h2>
       {user.apiToken ? (
