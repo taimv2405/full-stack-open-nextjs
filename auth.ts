@@ -1,9 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
-import { db } from '@/db';
-import { users } from '@/db/schema';
+import { getUserByUsername } from '@/app/services/users';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -17,9 +15,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const user = await db.query.users.findFirst({
-          where: eq(users.username, credentials.username as string),
-        });
+        const user = await getUserByUsername(credentials.username as string);
 
         if (!user || !user.passwordHash) {
           return null;
