@@ -19,11 +19,11 @@ const NewBlog = () => {
   }, [state.success, showNotification, router]);
 
   return (
-    <div>
-      <h2>Create a new blog</h2>
-      <form action={formAction}>
+    <div className="max-w-2xl mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Create a new blog</h2>
+      <form action={formAction} className="space-y-4">
         <div>
-          <label>
+          <label className="block font-medium mb-1">
             Title
             <input
               type="text"
@@ -31,14 +31,15 @@ const NewBlog = () => {
               defaultValue={state.values?.title}
               required
               minLength={5}
+              className="mt-1 w-full px-2 py-1 border rounded font-normal"
             />
           </label>
           {state.errors?.title && (
-            <p style={{ color: 'red' }}>{state.errors.title}</p>
+            <p className="text-red-600 text-sm mt-1">{state.errors.title}</p>
           )}
         </div>
         <div>
-          <label>
+          <label className="block font-medium mb-1">
             Author
             <input
               type="text"
@@ -46,14 +47,15 @@ const NewBlog = () => {
               defaultValue={state.values?.author}
               required
               minLength={5}
+              className="mt-1 w-full px-2 py-1 border rounded font-normal"
             />
           </label>
           {state.errors?.author && (
-            <p style={{ color: 'red' }}>{state.errors.author}</p>
+            <p className="text-red-600 text-sm mt-1">{state.errors.author}</p>
           )}
         </div>
         <div>
-          <label>
+          <label className="block font-medium mb-1">
             Url
             <input
               type="text"
@@ -61,13 +63,19 @@ const NewBlog = () => {
               defaultValue={state.values?.url}
               required
               minLength={5}
+              className="mt-1 w-full px-2 py-1 border rounded font-normal"
             />
           </label>
           {state.errors?.url && (
-            <p style={{ color: 'red' }}>{state.errors.url}</p>
+            <p className="text-red-600 text-sm mt-1">{state.errors.url}</p>
           )}
         </div>
-        <button type="submit">Create</button>
+        <button
+          type="submit"
+          className="px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700"
+        >
+          Create
+        </button>
       </form>
     </div>
   );
