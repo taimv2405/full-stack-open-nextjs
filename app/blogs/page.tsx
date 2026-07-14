@@ -11,14 +11,22 @@ const Blogs = async ({
   const blogs = (await getBlogs(filter)).toSorted((a, b) => b.likes - a.likes);
 
   return (
-    <div>
-      <h2>Blogs</h2>
+    <div className="max-w-2xl mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Blogs</h2>
       <BlogFilterForm defaultValue={filter} />
       <ul>
         {blogs.map((blog) => (
-          <li key={blog.id}>
-            <Link href={`/blogs/${blog.id}`}>{blog.title}</Link> by{' '}
-            {blog.author}
+          <li
+            key={blog.id}
+            className="mb-2 border rounded p-3 hover:bg-gray-50"
+          >
+            <Link
+              href={`/blogs/${blog.id}`}
+              className="text-blue-600 hover:underline"
+            >
+              {blog.title}
+            </Link>{' '}
+            <span className="text-amber-600">by {blog.author}</span>
           </li>
         ))}
       </ul>
