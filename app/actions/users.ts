@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
+import { getCurrentUser } from '@/app/services/session';
 
 type RegisterErrors = {
   username?: string;
@@ -52,4 +54,15 @@ export const registerUser = async (
   await db.insert(users).values({ username, name, passwordHash });
 
   return { success: true };
+};
+
+export const generateToken = async () => {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error('Not logged in');
+  }
+
+  const token = crypto.randomUUID();
+  await db.update(users).set({ apiToken: token }).where(eq(users.id, user.id));
+  revalidatePath('/me');
 };

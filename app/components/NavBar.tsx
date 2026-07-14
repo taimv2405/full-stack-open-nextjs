@@ -30,7 +30,7 @@ const NavBar = () => {
       <div className="ml-auto flex items-center gap-4">
         {session ? (
           <>
-            <em className="text-gray-300">{session.user?.name} logged in</em>
+            <NavLink href="/me">me</NavLink>
             <button
               onClick={handleLogout}
               className="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded text-sm"
