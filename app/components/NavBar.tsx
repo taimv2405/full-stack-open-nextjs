@@ -1,19 +1,9 @@
-'use client';
-
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
+import { auth } from '@/auth';
 import NavLink from './NavLink';
+import LogoutButton from './LogoutButton';
 
-const NavBar = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await signOut({ redirect: false });
-    router.push('/');
-    router.refresh();
-  };
+const NavBar = async () => {
+  const session = await auth();
 
   return (
     <nav className="bg-gray-800 text-white px-6 h-14 flex items-center gap-4">
@@ -32,12 +22,7 @@ const NavBar = () => {
         {session ? (
           <>
             <NavLink href="/me">me</NavLink>
-            <button
-              onClick={handleLogout}
-              className="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded text-sm"
-            >
-              logout
-            </button>
+            <LogoutButton />
           </>
         ) : (
           <>
