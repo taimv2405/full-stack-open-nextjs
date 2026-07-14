@@ -27,3 +27,10 @@ export const removeFromReadingList = async (userId: number, blogId: number) => {
     .delete(readingList)
     .where(and(eq(readingList.userId, userId), eq(readingList.blogId, blogId)));
 };
+
+export const markEntryAsRead = async (userId: number, entryId: number) => {
+  await db
+    .update(readingList)
+    .set({ read: true })
+    .where(and(eq(readingList.userId, userId), eq(readingList.id, entryId)));
+};

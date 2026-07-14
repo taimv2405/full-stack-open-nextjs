@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import {
   addToReadingList,
   removeFromReadingList,
+  markEntryAsRead,
 } from '@/app/services/readingList';
 import { getCurrentUser } from '@/app/services/session';
 
@@ -24,5 +25,17 @@ export const toggleReadingList = async (formData: FormData) => {
   }
 
   revalidatePath(`/blogs/${blogId}`);
+  revalidatePath('/me');
+};
+
+export const markAsRead = async (formData: FormData) => {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect('/login');
+  }
+
+  const entryId = Number(formData.get('entryId'));
+  await markEntryAsRead(user.id, entryId);
+
   revalidatePath('/me');
 };
