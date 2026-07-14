@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db';
-import { users } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { getUserByApiToken } from '@/app/services/users';
 
 export const GET = async (req: NextRequest) => {
   const authHeader = req.headers.get('Authorization');
@@ -13,25 +11,7 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const user = await db.query.users.findFirst({
-    where: eq(users.apiToken, apiToken),
-    columns: {
-      id: true,
-      username: true,
-      name: true,
-    },
-    with: {
-      blogs: {
-        columns: {
-          id: true,
-          title: true,
-          author: true,
-          url: true,
-          likes: true,
-        },
-      },
-    },
-  });
+  const user = await getUserByApiToken(apiToken);
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

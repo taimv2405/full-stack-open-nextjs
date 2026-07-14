@@ -15,6 +15,30 @@ export const getUserByUsername = async (username: string) => {
   return user ?? null;
 };
 
+export const getUserByApiToken = async (apiToken: string) => {
+  const user = await db.query.users.findFirst({
+    where: eq(users.apiToken, apiToken),
+    columns: {
+      id: true,
+      username: true,
+      name: true,
+    },
+    with: {
+      blogs: {
+        columns: {
+          id: true,
+          title: true,
+          author: true,
+          url: true,
+          likes: true,
+        },
+      },
+    },
+  });
+
+  return user ?? null;
+};
+
 export const getUserWithBlogs = async (username: string) => {
   return db.query.users.findFirst({
     where: eq(users.username, username),
