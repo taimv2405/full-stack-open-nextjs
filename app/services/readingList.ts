@@ -6,6 +6,7 @@ export const getReadingList = async (userId: number) => {
   return db.query.readingList.findMany({
     where: eq(readingList.userId, userId),
     with: { blog: true },
+    orderBy: readingList.id,
   });
 };
 
