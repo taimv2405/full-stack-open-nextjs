@@ -2,8 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { addBlog, incrementLikes } from '@/app/services/blogs';
 import { auth } from '@/auth';
+import { addBlog, incrementLikes } from '@/app/services/blogs';
 
 type CreateBlogErrors = {
   title?: string;
@@ -43,7 +43,9 @@ export const createBlog = async (
     return { success: false, errors, values: { title, author, url } };
 
   await addBlog(title, author, url);
+
   revalidatePath('/blogs');
+  revalidatePath('/me');
   return { success: true, values: { title, author, url } };
 };
 
