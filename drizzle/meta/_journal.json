@@ -43,6 +43,13 @@
       "when": 1784034194915,
       "tag": "0005_chilly_network",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1784042163750,
+      "tag": "0006_backfill_owner_reading_list",
+      "breakpoints": true
     }
   ]
 }
