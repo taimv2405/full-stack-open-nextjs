@@ -12,6 +12,7 @@ type CreateBlogErrors = {
 };
 
 type CreateBlogState = {
+  success?: boolean;
   errors?: CreateBlogErrors;
   values?: { title: string; author: string; url: string };
 };
@@ -39,11 +40,11 @@ export const createBlog = async (
     errors.url = 'Blog url must be at least 5 characters long';
 
   if (Object.keys(errors).length > 0)
-    return { errors, values: { title, author, url } };
+    return { success: false, errors, values: { title, author, url } };
 
   await addBlog(title, author, url);
   revalidatePath('/blogs');
-  redirect('/blogs');
+  return { success: true, values: { title, author, url } };
 };
 
 export const likeBlog = async (formData: FormData) => {
