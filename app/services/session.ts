@@ -9,7 +9,9 @@ export const getCurrentUser = async () => {
     return null;
   }
 
-  return db.query.users.findFirst({
+  const user = await db.query.users.findFirst({
     where: eq(users.username, session.user.email),
   });
+
+  return user ?? null;
 };
