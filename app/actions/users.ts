@@ -1,11 +1,12 @@
 'use server';
 
-import bcrypt from 'bcryptjs';
-import { db } from '@/db';
-import { users } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { getCurrentUser } from '@/app/services/session';
+import {
+  createUser,
+  getUserByUsername,
+  regenerateApiToken,
+} from '@/app/services/users';
 
 type RegisterErrors = {
   username?: string;
@@ -41,17 +42,14 @@ export const registerUser = async (
     errors.passwordConfirm = 'Passwords do not match';
 
   if (Object.keys(errors).length === 0) {
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.username, username),
-    });
+    const existingUser = await getUserByUsername(username);
     if (existingUser) errors.username = 'Username already exists';
   }
 
   if (Object.keys(errors).length > 0)
     return { success: false, errors, values: { username, name } };
 
-  const passwordHash = await bcrypt.hash(password, 10);
-  await db.insert(users).values({ username, name, passwordHash });
+  await createUser(username, name, password);
 
   return { success: true };
 };
@@ -62,7 +60,6 @@ export const generateToken = async () => {
     throw new Error('Not logged in');
   }
 
-  const token = crypto.randomUUID();
-  await db.update(users).set({ apiToken: token }).where(eq(users.id, user.id));
+  await regenerateApiToken(user.id);
   revalidatePath('/me');
 };
