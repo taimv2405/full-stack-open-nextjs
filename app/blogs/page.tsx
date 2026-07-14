@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import { getBlogs } from '@/app/services/blogs';
 import BlogFilterForm from './BlogFilterForm';
+import BlogEntry from '@/app/components/BlogEntry';
 
 const Blogs = async ({
   searchParams,
@@ -20,13 +20,7 @@ const Blogs = async ({
             key={blog.id}
             className="mb-2 border rounded p-3 hover:bg-gray-50"
           >
-            <Link
-              href={`/blogs/${blog.id}`}
-              className="text-blue-600 hover:underline"
-            >
-              {blog.title}
-            </Link>{' '}
-            <span className="text-amber-600">by {blog.author}</span>
+            <BlogEntry blog={blog} />
           </li>
         ))}
       </ul>
