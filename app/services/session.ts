@@ -1,7 +1,5 @@
 import { auth } from '@/auth';
-import { eq } from 'drizzle-orm';
-import { db } from '@/db';
-import { users } from '@/db/schema';
+import { getUserByUsername } from './users';
 
 export const getCurrentUser = async () => {
   const session = await auth();
@@ -9,9 +7,5 @@ export const getCurrentUser = async () => {
     return null;
   }
 
-  const user = await db.query.users.findFirst({
-    where: eq(users.username, session.user.email),
-  });
-
-  return user ?? null;
+  return getUserByUsername(session.user.email);
 };
