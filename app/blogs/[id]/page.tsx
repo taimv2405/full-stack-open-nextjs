@@ -33,7 +33,7 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <input type="hidden" name="id" value={blog.id} />
           <button
             type="submit"
-            className="px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700"
+            className="px-3 py-1 rounded bg-blue-700 text-white hover:bg-blue-800"
           >
             like
           </button>
