@@ -1,10 +1,21 @@
 'use client';
 
 import { registerUser } from '@/app/actions/users';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useNotification } from '@/app/components/NotificationContext';
 
 const RegisterPage = () => {
   const [state, formAction] = useActionState(registerUser, {});
+  const { showNotification } = useNotification();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.success) {
+      showNotification('User registered successfully!', 'success');
+      router.push('/login');
+    }
+  }, [state.success, showNotification, router]);
 
   return (
     <div>

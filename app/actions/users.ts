@@ -1,6 +1,5 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs';
 import { db } from '@/db';
 import { users } from '@/db/schema';
@@ -13,6 +12,7 @@ type RegisterErrors = {
 };
 
 type RegisterState = {
+  success?: boolean;
   errors?: RegisterErrors;
   values?: {
     username: string;
@@ -46,10 +46,10 @@ export const registerUser = async (
   }
 
   if (Object.keys(errors).length > 0)
-    return { errors, values: { username, name } };
+    return { success: false, errors, values: { username, name } };
 
   const passwordHash = await bcrypt.hash(password, 10);
   await db.insert(users).values({ username, name, passwordHash });
 
-  redirect('/login');
+  return { success: true };
 };
