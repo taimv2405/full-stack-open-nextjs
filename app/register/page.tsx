@@ -29,12 +29,13 @@ const RegisterPage = () => {
               name="username"
               defaultValue={state.values?.username}
               required
-              minLength={4}
             />
           </label>
         </div>
         {state.errors?.username && (
-          <div style={{ color: 'red' }}>{state.errors.username}</div>
+          <div data-testid="username-error" style={{ color: 'red' }}>
+            {state.errors.username}
+          </div>
         )}
 
         <div>
@@ -71,10 +72,14 @@ const RegisterPage = () => {
           </label>
         </div>
         {state.errors?.passwordConfirm && (
-          <div style={{ color: 'red' }}>{state.errors.passwordConfirm}</div>
+          <div data-testid="passwordConfirm-error" style={{ color: 'red' }}>
+            {state.errors.passwordConfirm}
+          </div>
         )}
 
-        <button type="submit">Register</button>
+        <button type="submit" data-testid="register-button">
+          Register
+        </button>
       </form>
     </div>
   );

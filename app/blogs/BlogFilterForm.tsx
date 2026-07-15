@@ -22,11 +22,13 @@ const BlogFilterForm = ({ defaultValue }: { defaultValue?: string }) => {
       <input
         type="text"
         name="filter"
+        data-testid="filter-input"
         defaultValue={defaultValue}
         className="px-2 py-1 border rounded"
       />
       <button
         type="submit"
+        data-testid="search-button"
         className="px-3 py-1 ml-2 rounded bg-gray-800 text-white hover:bg-gray-700"
       >
         filter

@@ -19,9 +19,13 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     user !== null && !isOwnBlog && (await isInReadingList(user.id, blog.id));
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-1">{blog.title}</h2>
-      <p className="text-amber-600 mb-3">by {blog.author}</p>
+    <div data-testid="blog-detail" className="max-w-2xl mx-auto p-6">
+      <h2 data-testid="blog-title" className="text-2xl font-bold mb-1">
+        {blog.title}
+      </h2>
+      <p data-testid="blog-author" className="text-amber-600 mb-3">
+        by {blog.author}
+      </p>
       <p className="mb-3">
         <a href={blog.url} className="text-blue-600 hover:underline break-all">
           {blog.url}
@@ -45,6 +49,11 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               type="submit"
               name="remove"
               value={String(inReadingList)}
+              data-testid={
+                inReadingList
+                  ? 'remove-from-reading-list-button'
+                  : 'add-to-reading-list-button'
+              }
               className={`px-3 py-1 rounded text-white transition-colors ${
                 inReadingList
                   ? 'bg-gray-500 hover:bg-gray-600'

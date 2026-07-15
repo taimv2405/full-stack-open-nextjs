@@ -14,7 +14,7 @@ const Blogs = async ({
     <div className="max-w-2xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-4">Blogs</h2>
       <BlogFilterForm defaultValue={filter} />
-      <ul>
+      <ul data-testid="blogs-list">
         {blogs.map((blog) => (
           <li
             key={blog.id}
