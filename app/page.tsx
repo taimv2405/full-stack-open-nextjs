@@ -1,9 +1,11 @@
+import Homepage from './homepage.mdx';
+
 const Home = () => {
   return (
-    <div>
-      <h2>Blogs App</h2>
-      <p>An example blog listing app built with Next.js</p>
+    <div className="markdown p-6 max-w-3xl mx-auto">
+      <Homepage />
     </div>
   );
 };
+
 export default Home;
