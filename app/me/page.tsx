@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { getReadingList } from '@/app/services/readingList';
 import { getCurrentUser } from '@/app/services/session';
-import { generateToken } from '@/app/actions/users';
 import ReadingListSection from './ReadingListSection';
+import ApiTokenSection from './ApiTokenSection';
 
 const Me = async () => {
   const user = await getCurrentUser();
@@ -46,36 +46,7 @@ const Me = async () => {
         )}
       </section>
       <hr className="my-4" />
-      <section data-testid="api-token-section">
-        <h2 className="text-xl font-bold mb-4">API Token</h2>
-        {user.apiToken ? (
-          <div
-            data-testid="token-display"
-            className="mb-4 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-4 rounded"
-          >
-            <p className="mb-2 font-bold">Current token:</p>
-            <p
-              data-testid="api-token"
-              className="bg-gray-200 dark:bg-gray-700 p-2 rounded break-all"
-            >
-              {user.apiToken}
-            </p>
-          </div>
-        ) : (
-          <p data-testid="no-token-message" className="text-gray-500 mb-2">
-            No token has been generated yet
-          </p>
-        )}
-        <form action={generateToken}>
-          <button
-            type="submit"
-            data-testid="generate-token-button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Generate New Token
-          </button>
-        </form>
-      </section>
+      <ApiTokenSection initialToken={user.apiToken} />
     </div>
   );
 };

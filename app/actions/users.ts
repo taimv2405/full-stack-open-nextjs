@@ -50,6 +50,7 @@ export const generateToken = async () => {
     throw new Error('Not logged in');
   }
 
-  await regenerateApiToken(user.id);
+  const apiToken = await regenerateApiToken(user.id);
   revalidatePath('/me');
+  return apiToken;
 };
