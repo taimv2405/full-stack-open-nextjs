@@ -46,6 +46,30 @@ export const getUserWithBlogs = async (username: string) => {
   });
 };
 
+export type NewUserErrors = {
+  username?: string;
+  password?: string;
+};
+
+export const validateNewUser = async (
+  username: string,
+  password: string,
+): Promise<NewUserErrors> => {
+  const errors: NewUserErrors = {};
+
+  if (!username || username.length < 4)
+    errors.username = 'Username must be at least 4 characters long';
+  if (!password || password.length < 4)
+    errors.password = 'Password must be at least 4 characters long';
+
+  if (!errors.username) {
+    const existingUser = await getUserByUsername(username);
+    if (existingUser) errors.username = 'Username already exists';
+  }
+
+  return errors;
+};
+
 export const createUser = async (
   username: string,
   name: string,

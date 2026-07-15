@@ -4,13 +4,12 @@ import { revalidatePath } from 'next/cache';
 import { getCurrentUser } from '@/app/services/session';
 import {
   createUser,
-  getUserByUsername,
   regenerateApiToken,
+  validateNewUser,
+  type NewUserErrors,
 } from '@/app/services/users';
 
-type RegisterErrors = {
-  username?: string;
-  password?: string;
+type RegisterErrors = NewUserErrors & {
   passwordConfirm?: string;
 };
 
@@ -32,19 +31,10 @@ export const registerUser = async (
   const password = formData.get('password') as string;
   const passwordConfirm = formData.get('passwordConfirm') as string;
 
-  const errors: RegisterErrors = {};
+  const errors: RegisterErrors = await validateNewUser(username, password);
 
-  if (!username || username.length < 4)
-    errors.username = 'Username must be at least 4 characters long';
-  if (!password || password.length < 4)
-    errors.password = 'Password must be at least 4 characters long';
   if (password !== passwordConfirm)
     errors.passwordConfirm = 'Passwords do not match';
-
-  if (Object.keys(errors).length === 0) {
-    const existingUser = await getUserByUsername(username);
-    if (existingUser) errors.username = 'Username already exists';
-  }
 
   if (Object.keys(errors).length > 0)
     return { success: false, errors, values: { username, name } };
